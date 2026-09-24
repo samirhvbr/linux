@@ -1,17 +1,21 @@
-# Configuracao Claude Code — LINUX/KERNEL
+# Claude Code configuration — LINUX/KERNEL
 
-Stack: **Scripts / docs de kernel**.
+Stack: **Kernel scripts / docs**.
 
-## Arquivos
-- `settings.json` — perfil ATIVO (Opus-only).
-- `settings.local.json` — override local (gitignored), precede o settings.json.
-- `json-opus` / `json-fable5-opus` / `json-fable5-opus-sonnet` — templates stand-by (`cp <tpl> settings.json` p/ trocar).
+## Files
+- `settings.json` — the ACTIVE profile (permissions and effort; it chooses no model).
+- `settings.local.json` — local override (gitignored), takes precedence over `settings.json`.
 
-## Modelo (todos os perfis)
-- Effort `max` via env `CLAUDE_CODE_EFFORT_LEVEL` (o campo `effortLevel` so aceita low/medium/high/xhigh).
-- 1M nativo no Opus 4.8 e Fable 5 (sem flag).
-- Fable 5: incluso no Max ate ~22/jun/2026; depois consome creditos. Requer Claude Code v2.1.170+.
+## Model
+- **This repository does not choose the model.** The model is the user's choice,
+  made per session with `/model`, and a subagent inherits the session's model.
+  Nothing here pins one: no `model`, no `fallbackModel`, and nothing in `env`
+  that steers one — no `ANTHROPIC_MODEL`, no `ANTHROPIC_DEFAULT_*_MODEL`, no
+  `CLAUDE_CODE_SUBAGENT_MODEL`. There are no stand-by profiles to copy over
+  `settings.json` either; `/model` does that (repodocs ADR-027).
+- Effort `max` via the `CLAUDE_CODE_EFFORT_LEVEL` env var (the `effortLevel`
+  field only accepts low/medium/high/xhigh).
 
-## Permissoes
-- `defaultMode: plan`; denies de seguranca (rm -rf, force push, reset --hard, clean -fd, curl|sh).
-- **git push liberado** (em `allow`).
+## Permissions
+- `defaultMode: plan`; safety denies (rm -rf, force push, reset --hard, clean -fd, curl|sh).
+- **git push allowed** (in `allow`).
